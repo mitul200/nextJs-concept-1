@@ -3,24 +3,45 @@ import React, { useEffect, useState } from "react";
 
 const Meals = () => {
   const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
   const [meals, setMeals] = useState([]);
 
-  const loadData = async () => {
-    const res = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`
-    );
-    const data = await res.json();
-    console.log(data.meals);
-    setMeals(data.meals);
-  };
+  // const loadData = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`
+  //     );
+  //     const data = await res.json();
+  //     console.log(data.meals);
+  //     setMeals(data.meals);
+  //   } catch (error) {
+  //     setError("No data found");
+  //   }
+  // };
 
-  if (meals.length == 0) {
-    return <h6>Loading...</h6>;
-  }
+  const loadData = async () => {
+    try {
+      const res = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`
+      );
+      const data = await res.json();
+
+      if (data.meals) {
+        setMeals(data.meals);
+        setError("");
+      } else {
+        setMeals([]);
+        setError("No data found");
+      }
+    } catch (error) {
+      setError("Something went wrong");
+      setMeals([]);
+    }
+  };
 
   // useEffect(() => {
   //   loadData();
-  // }, [search]);
+  // }, []);
 
   const handlar = (e) => {
     console.log(e.target.value);
@@ -35,19 +56,31 @@ const Meals = () => {
           type="text"
           placeholder="Search Meals..."
         />
-        <button
-          onClick={() => loadData()}
-          className=" p-3 rounded-xl bg-red-500 hover:bg-blue-700 duration-100"
-        >
+        <button onClick={() => loadData()} className="search-btn">
           Search
         </button>
+        {/* <div className="mt-12 grid grid-cols-3 gap-5">
+          {meals?.length > 0 &&
+            !error &&
+            meals.map((meal) => (
+              <div key={meal?.idMeal} className="border border-solid  p-4">
+                <h6>Name : {meal?.strMeal}</h6>
+                <h6>About :{meal?.strInstructions}</h6>
+              </div>
+            ))}
+          {error && <h1>No Data Found....</h1>}
+        </div> */}
         <div className="mt-12 grid grid-cols-3 gap-5">
-          {meals?.map((meal) => (
-            <div key={meal?.idMeal} className="border border-solid  p-4">
-              <h6>Name : {meal?.strMeal}</h6>
-              <h6>About :{meal?.strInstructions}</h6>
-            </div>
-          ))}
+          {meals.length > 0 ? (
+            meals.map((meal) => (
+              <div key={meal?.idMeal} className="border border-solid p-4">
+                <h6>Name: {meal?.strMeal}</h6>
+                <h6>About: {meal?.strInstructions}</h6>
+              </div>
+            ))
+          ) : (
+            <h1>{error}</h1>
+          )}
         </div>
       </div>
     </div>

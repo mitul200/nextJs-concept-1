@@ -27,29 +27,17 @@ export default function RootLayout({ children }) {
         <nav>
           <ul className=" flex justify-center gap-5">
             <li className=" text-xl">
-              <Link
-                href={"/"}
-                target="_blank"
-                className=" text-xl font-semibold"
-              >
+              <Link href={"/"} className=" text-xl font-semibold">
                 Home
               </Link>
             </li>
             <li className="">
-              <Link
-                href={"/posts"}
-                target="_blank"
-                className=" text-xl font-semibold"
-              >
+              <Link href={"/posts"} className=" text-xl font-semibold">
                 posts
               </Link>
             </li>
             <li className=" ml-6 bg-red-950">
-              <Link
-                href={"/meals"}
-                target="_blank"
-                className=" text-xl font-semibold"
-              >
+              <Link href={"/meals"} className=" text-xl font-semibold">
                 Meals
               </Link>
             </li>
