@@ -1,5 +1,10 @@
 import Meals from "@/component/Meals";
 
+export const metadata = {
+  title: "Meals ",
+  description: "Super powerful Next Website",
+};
+
 const page = () => {
   return (
     <div className="p-12">
